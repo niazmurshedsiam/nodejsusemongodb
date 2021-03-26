@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const ObjectId = require('mongodb').ObjectID;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -23,6 +24,12 @@ client.connect(err => {
     .then(result =>{
       console.log('data added successfully');
       res.send('success');
+    })
+  })
+  app.delete('/delete/:id',(req,res)=>{
+    productCollection.deleteOne({_id: ObjectId(req.params.id)})
+    .then(result =>{
+      console.log(result);
     })
   })
 });

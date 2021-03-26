@@ -34,12 +34,21 @@
                         <p>Product Price : ${product.price}</p>
                         <p>Product Quantity : ${product.quantity}</p>
                     </div>
-                    `;
+                    <button onclick="deleteProduct('${product._id}')">Delete</button>`;
                         container.appendChild(item);
                     })
                 })
         }
         loadProducts();
+        function deleteProduct(id){
+            fetch(`/delete/${id}`,{
+                method: 'DELETE'
+            })
+            .then(res => res.json())
+            .then(result =>{
+                console.log('deleted successfully');
+            })
+        }
     </script>
 </body>
 
