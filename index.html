@@ -19,8 +19,9 @@
     <div id="products">
 
     </div>
+    <div id="update"></div>
     <script>
-        function loadProducts() {
+        function loadAllProducts() {
             fetch('/products')
                 .then(res => res.json())
                 .then(products => {
@@ -34,12 +35,30 @@
                         <p>Product Price : ${product.price}</p>
                         <p>Product Quantity : ${product.quantity}</p>
                     </div>
+                    <button onclick="loadProduct('${product._id}')">Update</button>
                     <button onclick="deleteProduct('${product._id}')">Delete</button>`;
                         container.appendChild(item);
                     })
                 })
         }
-        loadProducts();
+        loadAllProducts();
+        function loadProduct(id){
+            fetch(`product/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                const update = document.getElementById('update');
+                update.innerHTML = `
+                    <h3>Update: ${data._id}</h3>
+                    Price : <input type="text" value="${data.price}" id="price">
+                    <br>
+                    <br>
+                    Quantity : <input type="text" value="${data.quantity}" id="quantity">
+                    <br>
+                    <br>
+                    <button>Submit</button>
+                `;
+            })
+        }
         function deleteProduct(id){
             fetch(`/delete/${id}`,{
                 method: 'DELETE'

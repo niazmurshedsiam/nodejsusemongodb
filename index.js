@@ -26,12 +26,20 @@ client.connect(err => {
       res.send('success');
     })
   })
+  app.get('/product/:id',(req,res)=>{
+    productCollection.find({_id: ObjectId(req.params.id)})
+    .toArray((err,document)=>{
+      res.send(document[0]);
+    })
+  })
   app.delete('/delete/:id',(req,res)=>{
     productCollection.deleteOne({_id: ObjectId(req.params.id)})
     .then(result =>{
       console.log(result);
     })
   })
+
+  
 });
 
 app.listen(5000);
